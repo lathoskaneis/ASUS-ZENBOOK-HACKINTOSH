@@ -16,7 +16,7 @@ DefinitionBlock("", "SSDT", 2, "hack", "atk", 0)
         {
             Notify (ATKD, Arg0)
         }
-        
+
         Method (SKBV, 1)
         {
             ^^KBLV = Arg0 / 16;
@@ -25,7 +25,7 @@ DefinitionBlock("", "SSDT", 2, "hack", "atk", 0)
             Return (Arg0)
         }
     }
-    
+
     Scope (_SB.PCI0.LPCB.EC0)
     {
         Method (_Q0A, 0) // F1 key
@@ -35,7 +35,7 @@ DefinitionBlock("", "SSDT", 2, "hack", "atk", 0)
                 ^^^^ATKD.IANE (0x5E)
             }
         }
-        
+
         Method (_Q0B, 0) // F2 key
         {
             If (^^^^ATKP)
@@ -43,7 +43,7 @@ DefinitionBlock("", "SSDT", 2, "hack", "atk", 0)
                 ^^^^ATKD.IANE (0x7D)
             }
         }
-        
+
         Method (_Q0E, 0) // F5 key
         {
             If (^^^^ATKP)
@@ -59,7 +59,7 @@ DefinitionBlock("", "SSDT", 2, "hack", "atk", 0)
                 ^^^^ATKD.IANE (0x10)
             }
         }
-        
+
         Method (_Q11, 0) // F8 key
         {
             If (^^^^ATKP)

@@ -8,13 +8,13 @@ DefinitionBlock ("", "SSDT", 2, "hack", "batt", 0)
     External(_SB.PCI0.LPCB.EC0, DeviceObj)
     External(_SB.PCI0.LPCB.EC0.BAT0, DeviceObj)
     External(MBLF, IntObj)
-    
+
     // add method B1B2
     Method (B1B2, 2)
     {
         Return (Arg0 | (Arg1<<8))
     }
-    
+
     Scope (_SB.PCI0.LPCB.EC0) {
         External(ECAV, MethodObj)
         External(BSLF, IntObj)
@@ -44,29 +44,29 @@ DefinitionBlock ("", "SSDT", 2, "hack", "batt", 0)
         External(EB0S, FieldUnitObj)
         External(B0DV, FieldUnitObj)
         External(BLLO, IntObj)
-        
+
         // add EC fields
         OperationRegion (XCOR, EmbeddedControl, 0x00, 0xFF)
         Field (XCOR, ByteAcc, Lock, Preserve)
         {
-            Offset (0x93), 
-            TH00,   8, 
-            TH01,   8, 
-            Offset (0xC4), 
-            XC30, 8, 
-            XC31, 8, 
-            Offset (0xF4), 
-            B0S0, 8, 
-            B0S1, 8, 
+            Offset (0x93),
+            TH00,   8,
+            TH01,   8,
+            Offset (0xC4),
+            XC30, 8,
+            XC31, 8,
+            Offset (0xF4),
+            B0S0, 8,
+            B0S1, 8,
             Offset (0xFC),
-            B1S0, 8, 
+            B1S0, 8,
             B1S1, 8
         }
-        
+
         OperationRegion (XSMX, EmbeddedControl, 0x18, 0x28)
         Field (XSMX, ByteAcc, NoLock, Preserve)
         {
-            Offset (0x04), 
+            Offset (0x04),
             BA00,8,BA01,8,BA02,8,BA03,8,
             BA04,8,BA05,8,BA06,8,BA07,8,
             BA08,8,BA09,8,BA0A,8,BA0B,8,
@@ -74,16 +74,16 @@ DefinitionBlock ("", "SSDT", 2, "hack", "batt", 0)
             BA10,8,BA11,8,BA12,8,BA13,8,
             BA14,8,BA15,8,BA16,8,BA17,8,
             BA18,8,BA19,8,BA1A,8,BA1B,8,
-            BA1C,8,BA1D,8,BA1E,8,BA1F,8, 
+            BA1C,8,BA1D,8,BA1E,8,BA1F,8,
         }
-        
+
         Field (XSMX, ByteAcc, NoLock, Preserve)
         {
-            Offset (0x04), 
-            T2B0, 8, 
+            Offset (0x04),
+            T2B0, 8,
             T2B1, 8
         }
-        
+
         // add method RDBA
         Method (RDBA, 0, Serialized)
         {
@@ -122,7 +122,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "batt", 0)
             TEMP [0x1F] = BA1F
             Return (TEMP)
         }
-        
+
         // add method WRBA
         Method (WRBA, 1, Serialized)
         {
@@ -161,7 +161,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "batt", 0)
             BA1E = DerefOf(TEMP [0x1E])
             BA1F = DerefOf(TEMP [0x1F])
         }
-        
+
         //override method BIFA
         Method (BIFA, 0)
         {
@@ -183,14 +183,14 @@ DefinitionBlock ("", "SSDT", 2, "hack", "batt", 0)
 
             Return (Local0)
         }
-        
+
         // override method SMBR
         Method (SMBR, 3, Serialized)
         {
             Local0 = Package (0x03)
                 {
-                    0x07, 
-                    0x00, 
+                    0x07,
+                    0x00,
                     0x00
                 }
             If (!ECAV ())
@@ -279,7 +279,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "batt", 0)
             Release (MUEC)
             Return (Local0)
         }
-        
+
         // override method SMBW
         Method (SMBW, 5, Serialized)
         {
@@ -369,7 +369,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "batt", 0)
             Release (MUEC)
             Return (Local0)
         }
-        
+
         Scope (BAT0) {
             External(NBIX, PkgObj)
             External(PBIF, PkgObj)
@@ -378,7 +378,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "batt", 0)
             External(PBST, PkgObj)
             External(PUNT, IntObj)
             External(LFCC, IntObj)
-                        
+
             // override method _BIX
             Method (_BIX, 0)
             {
@@ -428,7 +428,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "batt", 0)
                 BIXT [0x09] = 0x0001869F
                 Return (BIXT)
             }
-            
+
             // override method FBST
             Method (FBST, 4)
             {

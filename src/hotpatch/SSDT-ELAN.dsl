@@ -1,13 +1,13 @@
 // Patch by hieplpvip
 DefinitionBlock ("SSDT-ELAN", "SSDT", 2, "hack", "elan", 0)
-{    
+{
     // replace Method(_STA,0,NS) in Device(GPI0)
     External(_SB.PCI0.GPI0, DeviceObj)
     Method (_SB.PCI0.GPI0._STA, 0)
     {
         Return (0x0F)
     }
-    
+
     // GPIO Pin for ETPD
     External(_SB.PCI0.I2C1.ETPD, DeviceObj)
     Scope (_SB.PCI0.I2C1.ETPD)

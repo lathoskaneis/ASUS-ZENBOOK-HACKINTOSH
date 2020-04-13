@@ -14,19 +14,19 @@ DefinitionBlock("", "SSDT", 2, "hack", "fan", 0)
     Device (SMCD)
     {
         Name (_HID, "FAN00000") // Required, DO NOT change
-        
+
         // Add tachometer
         Name (TACH, Package()
         {
             "System Fan", "FAN0"
         })
-        
+
         // Add CPU heatsink
         Name (TEMP, Package()
         {
             "CPU Heatsink", "TCPU"
         })
-        
+
         // Method to read FAN RPM (tachometer)
         Method (FAN0, 0)
         {
@@ -41,18 +41,18 @@ DefinitionBlock("", "SSDT", 2, "hack", "fan", 0)
                 }
                 // Else, Get RPM and store it in Local0
                 Local0 = \_SB.PCI0.LPCB.EC0.TACH(0) // Method TACH in DSDT returns current FAN RPM in 100s, Arg0 as 0 is for FAN 1, for FAN 2, use Arg0 as 1
-                    
+
             }
             Else
             {
                 // Terminate, return Zero
                 Local0 = 0
             }
-            
+
             // Return 255, 0 or Fan RPM based on conditionals above
-            Return (Local0)  
+            Return (Local0)
         }
-        
+
         // Method to read CPU temp (CPU Heatsink)
         Method (TCPU, 0)
         {
@@ -62,21 +62,21 @@ DefinitionBlock("", "SSDT", 2, "hack", "fan", 0)
                 // Then
                 Local0 = \_SB.PCI0.LPCB.EC0.ECPU // EC Field storing current CPU temp
                 Local1 = 60 // From DSDT
-                
+
                 If (Local0 < 128)
                 {
                     Local1 = Local0
                 }
-                
+
             }
             Else
             {
                 // Terminate, return Zero
                 Local1 = 0
             }
-        
+
             // Return final CPU temp. ACPISensors take care of unit conversion.
             Return (Local1)
         }
     }
-}    
+}

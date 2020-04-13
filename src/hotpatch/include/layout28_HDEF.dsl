@@ -1,5 +1,7 @@
-    // inject properties for audio
-
+#ifndef NO_DEFINITIONBLOCK
+DefinitionBlock ("", "SSDT", 1, "hack", "lout28", 0)
+{
+#endif
     External(_SB.PCI0.HDEF, DeviceObj)
     Method(_SB.PCI0.HDEF._DSM, 4)
     {
@@ -11,3 +13,6 @@
             "PinConfigurations", Buffer() { },
         })
     }
+#ifndef NO_DEFINITIONBLOCK
+}
+#endif

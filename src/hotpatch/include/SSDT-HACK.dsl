@@ -33,7 +33,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "hack", 0)
         }
         Return (Ones != Match(Local0, MEQ, Arg0, MTR, 0, 0))
     }
-    
+
     // In DSDT, native GPRW is renamed to XPRW with Clover binpatch.
     // As a result, calls to GPRW land here.
     // The purpose of this implementation is to avoid "instant wake"
@@ -46,7 +46,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "hack", 0)
         External(\XPRW, MethodObj)
         Return(XPRW(Arg0, Arg1))
     }
-    
+
     External(RMCF.RMOF, MethodObj)
     Device(RMD1)
     {
@@ -56,7 +56,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "hack", 0)
             If (CondRefOf(\RMCF.RMOF)) { \RMCF.RMOF() } // disable Nvidia card
         }
     }
-    
+
     External(_SB.PCI0.LPCB.EC0, DeviceObj)
     External(_SB.PCI0.LPCB.EC0.XREG, MethodObj)
     External(RMCF.HGOF, MethodObj)
@@ -72,13 +72,13 @@ DefinitionBlock ("", "SSDT", 2, "hack", "hack", 0)
             }
         }
     }
-    
+
     // add fake EC device
     Device(_SB.EC)
     {
         Name(_HID, "EC000000")
     }
-    
+
     // add fake ethernet device, use with NullEthernet.kext
     Device (RMNE)
     {
@@ -100,7 +100,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "hack", 0)
             })
         }
     }
-    
+
     // add SMBUS device
     External(_SB.PCI0.SBUS, DeviceObj)
     Device(_SB.PCI0.SBUS.BUS0)
@@ -118,19 +118,19 @@ DefinitionBlock ("", "SSDT", 2, "hack", "hack", 0)
             }
         }
     }
-    
+
     // macOS expect PMCR for PPMC to load correctly credit syscl
     Device (_SB.PCI0.PMCR)
     {
         Name (_ADR, 0x001F0002)
     }
-    
+
     // add missing Memory (DRAM) Controller
     Device (_SB.PCI0.MCHC)
     {
         Name (_ADR, Zero)
     }
-    
+
     // add missing DMA controller
     Device (_SB.PCI0.LPCB.DMAC)
     {
@@ -144,7 +144,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "hack", 0)
             DMA (Compatibility, NotBusMaster, Transfer8_16) {4}
         })
     }
-    
+
     // This exist on real Mac, seems to defines a fixed memory region for IGPU
     External (_SB.PCI0.IGPU, DeviceObj)
     Scope (_SB.PCI0.IGPU)

@@ -23,7 +23,7 @@ DefinitionBlock("", "SSDT", 2, "hack", "ptswak", 0)
             // Shutdown fix, if enabled
             If (CondRefOf(\RMCF.SHUT)) { If (\RMCF.SHUT) { Return } }
         }
-        
+
         // enable discrete graphics
         If (CondRefOf(\RMCF.RMON)) { \RMCF.RMON() }
 
@@ -45,7 +45,7 @@ DefinitionBlock("", "SSDT", 2, "hack", "ptswak", 0)
 
         // call into original _WAK method
         Local0 = ZWAK(Arg0)
-        
+
         // disable discrete graphics
         If (CondRefOf(\RMCF.RMOF)) { \RMCF.RMOF() }
 

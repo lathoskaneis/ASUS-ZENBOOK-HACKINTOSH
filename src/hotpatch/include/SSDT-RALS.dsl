@@ -9,8 +9,8 @@ DefinitionBlock("", "SSDT", 2, "hack", "rals", 0)
     External (_SB.ATKD.IANE, MethodObj)
     External (_SB.PCI0.LPCB.EC0, DeviceObj)
     External (_SB.PCI0.LPCB.EC0.XALS, MethodObj)
-    
-    // In DSDT, native RALS is renamed to XALS with Clover binpatch.
+
+    // In DSDT, native RALS is renamed to XALS using Clover/OpenCore binpatch
     // As a result, calls to RALS land here.
     // This is a hack to allow setting keyboard backlight when ALS is disabled
     Method (_SB.PCI0.LPCB.EC0.RALS, 0)
@@ -24,7 +24,7 @@ DefinitionBlock("", "SSDT", 2, "hack", "rals", 0)
             Return (150)
         }
     }
-        
+
     Scope (_SB.ATKD)
     {
         Method (ALSS, 0)
@@ -36,7 +36,7 @@ DefinitionBlock("", "SSDT", 2, "hack", "rals", 0)
             Return (0x012C)
         }
     }
-    
+
     Scope (_SB.PCI0.LPCB.EC0)
     {
         // Ambient light sensor notification, from EMlyDinEsH
@@ -57,7 +57,7 @@ DefinitionBlock("", "SSDT", 2, "hack", "rals", 0)
             }
         }
     }
-    
+
     Scope (_SB.ALS)
     {
         Name(_CID, "smc-als")

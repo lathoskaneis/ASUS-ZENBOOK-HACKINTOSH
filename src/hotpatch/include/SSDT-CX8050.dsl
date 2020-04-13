@@ -5,7 +5,7 @@ DefinitionBlock ("", "SSDT", 1, "hack", "cx8050", 0)
 {
 #endif
     External(_SB.PCI0.HDEF, DeviceObj)
-    
+
     Name(_SB.PCI0.HDEF.RMCF, Package()
     {
         "CodecCommander", Package()
