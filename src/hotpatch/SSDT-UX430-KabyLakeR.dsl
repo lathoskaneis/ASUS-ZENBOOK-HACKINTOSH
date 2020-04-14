@@ -4,8 +4,8 @@ DefinitionBlock ("", "SSDT", 2, "hack", "ux430klr", 0)
 {
     #define NO_DEFINITIONBLOCK
 
-    // audio
-    #include "include/layout13_HDEF.dsl"
+    // audio: ALC294
+    #include "include/layout13_HDEF.dsl" // need testing
 
     // battery
     #include "include/SSDT-BATT.dsl"
