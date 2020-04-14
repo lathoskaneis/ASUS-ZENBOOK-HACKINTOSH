@@ -84,7 +84,6 @@ download_github "acidanthera/WhateverGreen/releases" "RELEASE" "acidanthera-What
 download_github "hieplpvip/AsusSMC/releases" "RELEASE" "hieplpvip-AsusSMC.zip"
 download_github "alexandred/VoodooI2C/releases" "VoodooI2C-" "alexandred-VoodooI2C.zip"
 download_github "PMheart/LiluFriend/releases" "RELEASE" "PMheart-LiluFriend.zip"
-download_RHM os-x-eapd-codec-commander RehabMan-CodecCommander
 download_RHM os-x-acpi-poller RehabMan-Poller
 download_RHM voodootscsync RehabMan-VoodooTSCSync
 if [ $nullethernet -eq 1 ]; then
@@ -101,7 +100,7 @@ download_RHM acpica iasl
 download_raw https://raw.githubusercontent.com/black-dragon74/OSX-Debug/master/IORegistryExplorer.zip IORegistryExplorer.zip
 cd ..
 
-REQUIREDLEKEXTS="CodecCommander"
+REQUIREDLEKEXTS=""
 LEKEXTS="ACPIPoller|AppleALC|AsusSMC|BrcmPatchRAM3|BrcmFirmwareRepo|BrcmBluetoothInjector|WhateverGreen|Lilu|NullEthernet.kext|VirtualSMC|SMCBatteryManager|SMCProcessor|VoodooI2C.kext|VoodooI2CHID.kext|VoodooPS2Controller|VoodooTSCSync|Fixup"
 CLOVERKEXTS="ACPIPoller|AppleALC|AsusSMC|BrcmPatchRAM3|BrcmFirmwareData|BrcmBluetoothInjector|WhateverGreen|Lilu|NullEthernet.kext|VirtualSMC|SMCBatteryManager|SMCProcessor|VoodooI2C.kext|VoodooI2CHID.kext|VoodooPS2Controller|VoodooTSCSync|Fixup"
 

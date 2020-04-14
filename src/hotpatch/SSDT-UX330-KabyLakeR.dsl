@@ -5,7 +5,6 @@ DefinitionBlock ("", "SSDT", 2, "hack", "ux330klr", 0)
     #define NO_DEFINITIONBLOCK
 
     // audio
-    #include "include/SSDT-AppleALC.dsl"
     #include "include/layout13_HDEF.dsl"
 
     // battery
