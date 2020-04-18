@@ -65,11 +65,8 @@ echo
 if [ ! -d ./downloads ]; then mkdir ./downloads; fi
 cd ./downloads
 sudo rm -rf ./zips
-sudo rm -rf ./required_le_kexts
-sudo rm -rf ./le_kexts
-sudo rm -rf ./clover_kexts
+sudo rm -rf ./kexts
 sudo rm -rf ./tools
-sudo rm -rf ./drivers
 
 # download kexts
 mkdir ./zips && cd ./zips
@@ -95,13 +92,10 @@ cd ..
 # download tools
 mkdir ./tools && cd ./tools
 download_RHM os-x-maciasl-patchmatic RehabMan-patchmatic
-download_RHM os-x-maciasl-patchmatic RehabMan-MaciASL
-download_RHM acpica iasl
+download_github "acidanthera/MaciASL/releases" "RELEASE" "acidanthera-MaciASL.zip"
 download_raw https://raw.githubusercontent.com/black-dragon74/OSX-Debug/master/IORegistryExplorer.zip IORegistryExplorer.zip
 cd ..
 
-REQUIREDLEKEXTS=""
-LEKEXTS="ACPIPoller|AppleALC|AsusSMC|BrcmPatchRAM3|BrcmFirmwareRepo|BrcmBluetoothInjector|WhateverGreen|Lilu|NullEthernet.kext|VirtualSMC|SMCBatteryManager|SMCProcessor|VoodooI2C.kext|VoodooI2CHID.kext|VoodooPS2Controller|VoodooTSCSync|Fixup"
 CLOVERKEXTS="ACPIPoller|AppleALC|AsusSMC|BrcmPatchRAM3|BrcmFirmwareData|BrcmBluetoothInjector|WhateverGreen|Lilu|NullEthernet.kext|VirtualSMC|SMCBatteryManager|SMCProcessor|VoodooI2C.kext|VoodooI2CHID.kext|VoodooPS2Controller|VoodooTSCSync|Fixup"
 
 function check_directory
@@ -123,14 +117,8 @@ function unzip_kext
     if [ $? -ne 0 ]; then
         for kext in $out/Release/*.kext; do
             kextname="`basename $kext`"
-            if [[ "`echo $kextname | grep -E $REQUIREDLEKEXTS`" != "" ]]; then
-                cp -R $kext ../required_le_kexts
-            fi
-            if [[ "`echo $kextname | grep -E $LEKEXTS`" != "" ]]; then
-                cp -R $kext ../le_kexts
-            fi
             if [[ "`echo $kextname | grep -E $CLOVERKEXTS`" != "" ]]; then
-                cp -R $kext ../clover_kexts
+                cp -R $kext ../kexts
             fi
         done
     fi
@@ -138,14 +126,8 @@ function unzip_kext
     if [ $? -ne 0 ]; then
         for kext in $out/*.kext; do
             kextname="`basename $kext`"
-            if [[ "`echo $kextname | grep -E $REQUIREDLEKEXTS`" != "" ]]; then
-                cp -R $kext ../required_le_kexts
-            fi
-            if [[ "`echo $kextname | grep -E $LEKEXTS`" != "" ]]; then
-                cp -R $kext ../le_kexts
-            fi
             if [[ "`echo $kextname | grep -E $CLOVERKEXTS`" != "" ]]; then
-                cp -R $kext ../clover_kexts
+                cp -R $kext ../kexts
             fi
         done
     fi
@@ -153,22 +135,14 @@ function unzip_kext
     if [ $? -ne 0 ]; then
         for kext in $out/Kexts/*.kext; do
             kextname="`basename $kext`"
-            if [[ "`echo $kextname | grep -E $REQUIREDLEKEXTS`" != "" ]]; then
-                cp -R $kext ../required_le_kexts
-            fi
-            if [[ "`echo $kextname | grep -E $LEKEXTS`" != "" ]]; then
-                cp -R $kext ../le_kexts
-            fi
             if [[ "`echo $kextname | grep -E $CLOVERKEXTS`" != "" ]]; then
-                cp -R $kext ../clover_kexts
+                cp -R $kext ../kexts
             fi
         done
     fi
 }
 
-mkdir ./required_le_kexts
-mkdir ./le_kexts
-mkdir ./clover_kexts
+mkdir ./kexts
 
 check_directory ./zips/*.zip
 if [ $? -ne 0 ]; then
@@ -179,32 +153,18 @@ if [ $? -ne 0 ]; then
     done
 
     cd ..
-    /usr/libexec/PlistBuddy -c "Set :IOKitPersonalities:'ACPI Poller':IONameMatch FAN00000" le_kexts/ACPIPoller.kext/Contents/Info.plist
-    /usr/libexec/PlistBuddy -c "Set :IOKitPersonalities:'ACPI Poller':Methods:0 FCPU" le_kexts/ACPIPoller.kext/Contents/Info.plist
 
-    /usr/libexec/PlistBuddy -c "Set :IOKitPersonalities:'ACPI Poller':IONameMatch FAN00000" clover_kexts/ACPIPoller.kext/Contents/Info.plist
-    /usr/libexec/PlistBuddy -c "Set :IOKitPersonalities:'ACPI Poller':Methods:0 FCPU" clover_kexts/ACPIPoller.kext/Contents/Info.plist
+    /usr/libexec/PlistBuddy -c "Set :IOKitPersonalities:'ACPI Poller':IONameMatch FAN00000" kexts/ACPIPoller.kext/Contents/Info.plist
+    /usr/libexec/PlistBuddy -c "Set :IOKitPersonalities:'ACPI Poller':Methods:0 FCPU" kexts/ACPIPoller.kext/Contents/Info.plist
 
-    for thefile in $( find le_kexts \( -type f -name Info.plist -not -path '*/Lilu.kext/*' -not -path '*/LiluFriend.kext/*' -print0 \) | xargs -0 grep -l '<key>as.vit9696.Lilu</key>' ); do
+    for thefile in $( find kexts \( -type f -name Info.plist -not -path '*/Lilu.kext/*' -not -path '*/LiluFriend.kext/*' -print0 \) | xargs -0 grep -l '<key>as.vit9696.Lilu</key>' ); do
         name="`/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' $thefile`"
         version="`/usr/libexec/PlistBuddy -c 'Print :OSBundleCompatibleVersion' $thefile`"
         if [[ -z "${version}" ]]; then
             version="`/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' $thefile`"
         fi
-        /usr/libexec/PlistBuddy -c "Add :OSBundleLibraries:$name string $version" le_kexts/LiluFriend.kext/Contents/Info.plist
-    done
-
-    for thefile in $( find clover_kexts \( -type f -name Info.plist -not -path '*/Lilu.kext/*' -not -path '*/LiluFriend.kext/*' -print0 \) | xargs -0 grep -l '<key>as.vit9696.Lilu</key>' ); do
-        name="`/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' $thefile`"
-        version="`/usr/libexec/PlistBuddy -c 'Print :OSBundleCompatibleVersion' $thefile`"
-        if [[ -z "${version}" ]]; then
-            version="`/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' $thefile`"
-        fi
-        /usr/libexec/PlistBuddy -c "Add :OSBundleLibraries:$name string $version" clover_kexts/LiluFriend.kext/Contents/Info.plist
+        /usr/libexec/PlistBuddy -c "Add :OSBundleLibraries:$name string $version" kexts/LiluFriend.kext/Contents/Info.plist
     done
 fi
-
-#mkdir ./drivers
-#cp ./zips/acidanthera-VirtualSMC/Drivers/VirtualSmc.efi ./drivers
 
 cd ..
