@@ -2,14 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Comment</key>
+	<key>#Comment</key>
 	<string>This config is created by @hieplpvip for UX410 (KabyLake)</string>
 	<key>ACPI</key>
 	<dict>
 		<key>Add</key>
 		<array>
 			<dict>
-				<key>#Comment</key>
+				<key>Comment</key>
 				<string>SSDT-FAN-MOD.aml</string>
 				<key>Path</key>
 				<string>SSDT-FAN-MOD.aml</string>
