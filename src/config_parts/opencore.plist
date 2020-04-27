@@ -9,7 +9,7 @@
 		<key>Add</key>
 		<array>
 			<dict>
-				<key>Comment</key>
+				<key>#Comment</key>
 				<string>SSDT-FAN-MOD.aml</string>
 				<key>Path</key>
 				<string>SSDT-FAN-MOD.aml</string>
