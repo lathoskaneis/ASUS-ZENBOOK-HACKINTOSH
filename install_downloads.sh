@@ -16,17 +16,10 @@ TAGCMD=`pwd`/tools/tag
 SLE=/System/Library/Extensions
 LE=/Library/Extensions
 
-OLDKEXTS="ACPIBatteryManager|ACPIPoller|AppleALC|aDummyHDA|cloverHDA|AppleBacklightInjector|IntelBacklight|Asus|Brcm|CodecCommander|FakePCIID|FakeSMC|VirtualSMC|SMCBatteryManager|SMCLightSensor|SMCProcessor|SMCSuperIO|WhateverGreen|Shiki|Lilu|NullEthernet|USBInjectAll|Voodoo|Injector|Fixup"
+OLDKEXTS="ACPIBatteryManager|ACPIPoller|AppleALC|aDummyHDA|cloverHDA|IntelBacklight|Asus|Brcm|CodecCommander|FakePCIID|FakeSMC|VirtualSMC|SMCBatteryManager|SMCLightSensor|SMCProcessor|SMCSuperIO|WhateverGreen|Shiki|Lilu|NullEthernet|USBInjectAll|Voodoo|Injector|Fixup"
 
 # extract minor version (eg. 10.9 vs. 10.10 vs. 10.11)
 MINOR_VER=$([[ "$(sw_vers -productVersion)" =~ [0-9]+\.([0-9]+) ]] && echo ${BASH_REMATCH[1]})
-
-# install to /Library/Extensions for 10.11 or greater
-if [[ $MINOR_VER -ge 11 ]]; then
-    KEXTDEST=$LE
-else
-    KEXTDEST=$SLE
-fi
 
 # this could be removed if 'tag' can be made to work on old systems
 function tag_file
@@ -45,16 +38,6 @@ function check_directory
             return 0
         fi
     done
-}
-
-function install_kext
-{
-    if [ "$1" != "" ]; then
-        echo -e '\t'`basename $1`
-        sudo rm -Rf $SLE/`basename $1` $KEXTDEST/`basename $1`
-        sudo cp -Rf $1 $KEXTDEST
-        $TAG -a Gray $KEXTDEST/`basename $1`
-    fi
 }
 
 # FIX-ME: some tools don't work
@@ -138,48 +121,6 @@ do
 done
 echo
 
-#PS3='Do you want to install kexts to '$KEXTDEST': '
-#options=("Yes" "No")
-#select opt in "${options[@]}"
-#do
-#    case $opt in
-#        "Yes")
-#            # install kexts
-#            check_directory ./downloads/le_kexts/*.kext
-#            if [ $? -ne 0 ]; then
-#                echo 'Installing kexts to '$KEXTDEST'...'
-#                cd ./downloads/le_kexts
-#                for kext in *.kext; do
-#                    install_kext $kext
-#                done
-#                echo
-#                cd ../..
-#            fi
-#
-#            break;;
-#        "No")
-#            echo
-#            break;;
-#        *) echo "Invalid";;
-#    esac
-#done
-
-PS3='Do you want to use custom power management via X86PlatformPluginInjector.kext: '
-options=("Yes" "No")
-select opt in "${options[@]}"
-do
-    case $opt in
-        "Yes")
-            installx86=1
-            break;;
-        "No")
-            installx86=0
-            break;;
-        *) echo "Invalid";;
-    esac
-done
-echo
-
 # install tool
 if [ $installtools -eq 1 ]; then
     # install tools
@@ -196,50 +137,30 @@ if [ $installtools -eq 1 ]; then
 fi
 
 # remove old kexts in /L/E, /S/L/E
+kextsremoved=0
 echo Removing old kexts in /L/E, /S/L/E
 for kext in $LE/*.kext; do
     kextname="`basename $kext`"
     if [[ "`echo $kextname | grep -E $OLDKEXTS`" != "" ]]; then
         sudo rm -Rf $kext
+        kextsremoved=1
     fi
 done
 for kext in $SLE/*.kext; do
     kextname="`basename $kext`"
     if [[ "`echo $kextname | grep -E $OLDKEXTS`" != "" ]]; then
         sudo rm -Rf $kext
+        kextsremoved=1
     fi
 done
 echo
 
-# install X86PlatformPluginInjector.kext
-if [ $installx86 -eq 1 ]; then
-    check_directory ./src/kexts/X86PlatformPluginInjector.kext
-    if [ $? -ne 0 ]; then
-        echo 'Installing X86PlatformPluginInjector.kext to '$KEXTDEST'...'
-        install_kext ./src/kexts/X86PlatformPluginInjector.kext
-    else
-        echo 'X86PlatformPluginInjector.kext not found.'
-        echo 'Please re-download this repo.'
-    fi
-    echo
-fi
-
-# install Bluetooth kexts to /L/E. these kexts dont work if injected by Clover
-check_directory ./downloads/required_le_kexts/*.kext
-if [ $? -ne 0 ]; then
-    echo 'Installing required kexts to '$KEXTDEST'... These kexts won'"'"'t work if injected by Clover'
-    cd ./downloads/required_le_kexts
-    for kext in *.kext; do
-        install_kext $kext
-    done
-    echo
-    cd ../..
-fi
-
 # force cache rebuild with output
-echo Rebuilding kextcache...
-sudo kextcache -i /
-echo
+if [ $kextsremoved -eq 1 ]; then
+    echo Rebuilding kextcache...
+    sudo kextcache -i /
+    echo
+fi
 
 # install/update kexts on EFI/Clover/kexts/Other
 EFI=`./mount_efi.sh`
@@ -266,12 +187,6 @@ cd ../..
 echo Installing AsusSMCDaemon...
 ./downloads/zips/hieplpvip-AsusSMC/install_daemon.sh
 echo
-
-#echo Installing VirtualSmc.efi
-#cp -f ./downloads/drivers/VirtualSmc.efi $EFI/EFI/CLOVER/drivers64UEFI
-#rm -f $EFI/EFI/CLOVER/drivers64UEFI/SMCHelper.efi
-#rm -f $EFI/EFI/CLOVER/drivers64UEFI/SMCHelper-64.efi
-#echo
 
 if [[ "$ALCPLUGFIX" != "" ]]; then
     echo Installing ALCPlugFix...

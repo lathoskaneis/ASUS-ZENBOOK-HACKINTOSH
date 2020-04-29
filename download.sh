@@ -75,6 +75,8 @@ download_github "acidanthera/AppleALC/releases" "RELEASE" "acidanthera-AppleALC.
 download_github "acidanthera/AirportBrcmFixup/releases" "RELEASE" "acidanthera-AirportBrcmFixup.zip"
 download_github "acidanthera/BrcmPatchRAM/releases" "RELEASE" "acidanthera-BrcmPatchRAM.zip"
 download_github "acidanthera/BT4LEContinuityFixup/releases" "RELEASE" "acidanthera-BT4LEContinuityFixup.zip"
+download_github "acidanthera/CPUFriend/releases" "RELEASE" "acidanthera-CPUFriend.zip"
+download_github "acidanthera/HibernationFixup/releases" "RELEASE" "acidanthera-HibernationFixup.zip"
 download_github "acidanthera/VirtualSMC/releases" "RELEASE" "acidanthera-VirtualSMC.zip"
 download_github "acidanthera/VoodooPS2/releases" "RELEASE" "acidanthera-VoodooPS2.zip"
 download_github "acidanthera/WhateverGreen/releases" "RELEASE" "acidanthera-WhateverGreen.zip"

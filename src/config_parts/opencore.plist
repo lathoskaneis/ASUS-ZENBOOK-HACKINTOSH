@@ -750,6 +750,46 @@
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
+			<dict>
+				<key>Enabled</key>
+				<true/>
+				<key>BundlePath</key>
+				<string>CPUFriendDataProvider.kext</string>
+				<key>ExecutablePath</key>
+				<string></string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>Enabled</key>
+				<true/>
+				<key>BundlePath</key>
+				<string>CPUFriend.kext</string>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/CPUFriend</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>Enabled</key>
+				<true/>
+				<key>BundlePath</key>
+				<string>HibernationFixup.kext</string>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/HibernationFixup</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>Enabled</key>
+				<true/>
+				<key>BundlePath</key>
+				<string>LiluFriend.kext</string>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/LiluFriend</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
 		</array>
 		<key>Block</key>
 		<array/>
