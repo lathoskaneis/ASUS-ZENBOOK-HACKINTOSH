@@ -17,6 +17,9 @@ DefinitionBlock ("", "SSDT", 2, "hack", "ux303bdw", 0)
     // backlight
     #include "include/SSDT-PNLF.dsl"
 
+    // disable DGPU
+    //#include "include/SSDT-RP01_PEGP.dsl"
+
     // usb
     #include "include/SSDT-XHC.dsl"
     #include "include/SSDT-USBX.dsl"
