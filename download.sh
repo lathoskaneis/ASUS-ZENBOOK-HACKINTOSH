@@ -98,7 +98,7 @@ download_github "acidanthera/MaciASL/releases" "RELEASE" "acidanthera-MaciASL.zi
 download_raw https://raw.githubusercontent.com/black-dragon74/OSX-Debug/master/IORegistryExplorer.zip IORegistryExplorer.zip
 cd ..
 
-CLOVERKEXTS="ACPIPoller|AppleALC|AsusSMC|BrcmPatchRAM3|BrcmFirmwareData|BrcmBluetoothInjector|WhateverGreen|Lilu|NullEthernet.kext|VirtualSMC|SMCBatteryManager|SMCProcessor|VoodooI2C.kext|VoodooI2CHID.kext|VoodooPS2Controller|VoodooTSCSync|Fixup"
+KEXTS="ACPIPoller|AppleALC|AsusSMC|BrcmPatchRAM3|BrcmFirmwareData|BrcmBluetoothInjector|WhateverGreen|CPUFriend|Lilu|NullEthernet.kext|VirtualSMC|SMCBatteryManager|SMCProcessor|VoodooI2C.kext|VoodooI2CHID.kext|VoodooPS2Controller|VoodooTSCSync|Fixup"
 
 function check_directory
 {
@@ -119,7 +119,7 @@ function unzip_kext
     if [ $? -ne 0 ]; then
         for kext in $out/Release/*.kext; do
             kextname="`basename $kext`"
-            if [[ "`echo $kextname | grep -E $CLOVERKEXTS`" != "" ]]; then
+            if [[ "`echo $kextname | grep -E $KEXTS`" != "" ]]; then
                 cp -R $kext ../kexts
             fi
         done
@@ -128,7 +128,7 @@ function unzip_kext
     if [ $? -ne 0 ]; then
         for kext in $out/*.kext; do
             kextname="`basename $kext`"
-            if [[ "`echo $kextname | grep -E $CLOVERKEXTS`" != "" ]]; then
+            if [[ "`echo $kextname | grep -E $KEXTS`" != "" ]]; then
                 cp -R $kext ../kexts
             fi
         done
@@ -137,7 +137,7 @@ function unzip_kext
     if [ $? -ne 0 ]; then
         for kext in $out/Kexts/*.kext; do
             kextname="`basename $kext`"
-            if [[ "`echo $kextname | grep -E $CLOVERKEXTS`" != "" ]]; then
+            if [[ "`echo $kextname | grep -E $KEXTS`" != "" ]]; then
                 cp -R $kext ../kexts
             fi
         done
