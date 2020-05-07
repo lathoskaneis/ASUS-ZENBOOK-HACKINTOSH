@@ -18,7 +18,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "ux303bdw", 0)
     #include "include/SSDT-PNLF.dsl"
 
     // disable DGPU
-    //#include "include/SSDT-RP01_PEGP.dsl"
+    #include "include/SSDT-DDGPU.dsl"
 
     // usb
     #include "include/SSDT-XHC.dsl"
@@ -29,7 +29,6 @@ DefinitionBlock ("", "SSDT", 2, "hack", "ux303bdw", 0)
 
     // others
     #include "include/SSDT-HACK.dsl"
-    #include "include/SSDT-PTSWAK.dsl"
     #include "include/SSDT-LPC.dsl"
     #include "include/SSDT-IGPU.dsl"
 }
