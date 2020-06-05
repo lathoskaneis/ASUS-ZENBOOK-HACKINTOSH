@@ -1,8 +1,9 @@
 # ASUS ZENBOOK HACKINTOSH
 
 [![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg?colorB=ed1965)](https://gitter.im/ASUS-ZENBOOK-HACKINTOSH/Lobby)
+[![Donate with PayPal](https://img.shields.io/badge/paypal-donate-red.svg)](https://paypal.me/lebhiep)
 
-Clover hotpatches and tools for the Asus Zenbook laptop on macOS 10.13.6+
+Run macOS Catalina on Asus Zenbook with OpenCore/Clover
 
 ## Supported models
 
@@ -12,8 +13,6 @@ Clover hotpatches and tools for the Asus Zenbook laptop on macOS 10.13.6+
 - UX410 (KabyLake)
 - UX430 (KabyLake)
 - UX430 (KabyLake-R)
-
-To add support for your laptop, please provide full specs and original ACPI files from Clover. Recent models (KabyLake, KabyLake-R) are preferred.
 
 ## What's working
 
@@ -26,8 +25,6 @@ To add support for your laptop, please provide full specs and original ACPI file
 
 - Basic instruction is available in [wiki](../../wiki/).
 
-## [Donate me](https://paypal.me/lebhiep)
-
 ## Credits
 
 @acidanthera for their awesome drivers and OpenCore
@@ -37,3 +34,7 @@ To add support for your laptop, please provide full specs and original ACPI file
 @RehabMan for his guides on Tonymacx86
 
 See [References](../../wiki/References) for full list.
+
+## [Donate me](https://paypal.me/lebhiep)
+
+Any donation is highly appreciated!

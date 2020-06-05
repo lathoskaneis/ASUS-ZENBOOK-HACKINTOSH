@@ -12,22 +12,6 @@
 		<array>
 			<dict>
 				<key>Comment</key>
-				<string>SSDT-FAN-MOD.aml</string>
-				<key>Path</key>
-				<string>SSDT-FAN-MOD.aml</string>
-				<key>Enabled</key>
-				<true/>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string>SSDT-I2CBUS.aml</string>
-				<key>Path</key>
-				<string>SSDT-I2CBUS.aml</string>
-				<key>Enabled</key>
-				<true/>
-			</dict>
-			<dict>
-				<key>Comment</key>
 				<string>SSDT-UX410-KabyLake.aml</string>
 				<key>Path</key>
 				<string>SSDT-UX410-KabyLake.aml</string>
@@ -499,16 +483,6 @@
 				<key>Enabled</key>
 				<true/>
 				<key>BundlePath</key>
-				<string>ACPIPoller.kext</string>
-				<key>ExecutablePath</key>
-				<string>Contents/MacOS/ACPIPoller</string>
-				<key>PlistPath</key>
-				<string>Contents/Info.plist</string>
-			</dict>
-			<dict>
-				<key>Enabled</key>
-				<true/>
-				<key>BundlePath</key>
 				<string>AirportBrcmFixup.kext</string>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/AirportBrcmFixup</string>
@@ -896,7 +870,7 @@
 		<key>Debug</key>
 		<dict>
 			<key>AppleDebug</key>
-			<true/>
+			<false/>
 			<key>ApplePanic</key>
 			<true/>
 			<key>DisableWatchDog</key>

@@ -83,7 +83,6 @@ download_github "acidanthera/WhateverGreen/releases" "RELEASE" "acidanthera-What
 download_github "hieplpvip/AsusSMC/releases" "RELEASE" "hieplpvip-AsusSMC.zip"
 download_github "alexandred/VoodooI2C/releases" "VoodooI2C-" "alexandred-VoodooI2C.zip"
 download_github "PMheart/LiluFriend/releases" "RELEASE" "PMheart-LiluFriend.zip"
-download_RHM os-x-acpi-poller RehabMan-Poller
 download_RHM voodootscsync RehabMan-VoodooTSCSync
 if [ $nullethernet -eq 1 ]; then
     download_RHM os-x-null-ethernet RehabMan-NullEthernet
@@ -98,7 +97,7 @@ download_github "acidanthera/MaciASL/releases" "RELEASE" "acidanthera-MaciASL.zi
 download_raw https://raw.githubusercontent.com/black-dragon74/OSX-Debug/master/IORegistryExplorer.zip IORegistryExplorer.zip
 cd ..
 
-KEXTS="ACPIPoller|AppleALC|AsusSMC|BrcmPatchRAM3|BrcmFirmwareData|BrcmBluetoothInjector|WhateverGreen|CPUFriend|Lilu|NullEthernet.kext|VirtualSMC|SMCBatteryManager|SMCProcessor|VoodooI2C.kext|VoodooI2CHID.kext|VoodooPS2Controller|VoodooTSCSync|Fixup"
+KEXTS="AppleALC|AsusSMC|BrcmPatchRAM3|BrcmFirmwareData|BrcmBluetoothInjector|WhateverGreen|CPUFriend|Lilu|NullEthernet.kext|VirtualSMC|SMCBatteryManager|SMCProcessor|VoodooI2C.kext|VoodooI2CHID.kext|VoodooPS2Controller|VoodooTSCSync|Fixup"
 
 function check_directory
 {
@@ -155,9 +154,6 @@ if [ $? -ne 0 ]; then
     done
 
     cd ..
-
-    /usr/libexec/PlistBuddy -c "Set :IOKitPersonalities:'ACPI Poller':IONameMatch FAN00000" kexts/ACPIPoller.kext/Contents/Info.plist
-    /usr/libexec/PlistBuddy -c "Set :IOKitPersonalities:'ACPI Poller':Methods:0 FCPU" kexts/ACPIPoller.kext/Contents/Info.plist
 
     for thefile in $( find kexts \( -type f -name Info.plist -not -path '*/Lilu.kext/*' -not -path '*/LiluFriend.kext/*' -print0 \) | xargs -0 grep -l '<key>as.vit9696.Lilu</key>' ); do
         name="`/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' $thefile`"
