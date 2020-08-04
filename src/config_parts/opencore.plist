@@ -645,16 +645,6 @@
 				<key>Enabled</key>
 				<true/>
 				<key>BundlePath</key>
-				<string>VoodooPS2Controller.kext/Contents/PlugIns/VoodooPS2Mouse.kext</string>
-				<key>ExecutablePath</key>
-				<string>Contents/MacOS/VoodooPS2Mouse</string>
-				<key>PlistPath</key>
-				<string>Contents/Info.plist</string>
-			</dict>
-			<dict>
-				<key>Enabled</key>
-				<true/>
-				<key>BundlePath</key>
 				<string>VoodooTSCSync.kext</string>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/VoodooTSCSync</string>
