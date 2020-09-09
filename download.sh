@@ -1,27 +1,7 @@
 #!/bin/bash
 
-if [ "$(id -u)" != "0" ] && [ "$(sudo -n echo 'sudo' 2> /dev/null)" != "sudo" ]; then
-    echo "This script must be run as root in order to overwrite old downloaded files (if exist)!"
-    sudo $0 $@
-    exit 0
-fi
-
 curl_options="--retry 5 --location --progress-bar"
 curl_options_silent="--retry 5 --location --silent"
-
-# download typical release from RehabMan bitbucket downloads
-function download_RHM()
-# $1 is subdir on rehabman bitbucket
-# $2 is prefix of zip file name
-{
-    echo "downloading $2:"
-    curl $curl_options_silent --output /tmp/com.hieplpvip.download.txt https://bitbucket.org/RehabMan/$1/downloads/
-    local url=https://bitbucket.org`grep -o -m 1 "/RehabMan/$1/downloads/$2.*\.zip" /tmp/com.hieplpvip.download.txt|perl -ne 'print $1 if /(.*)\"/'`
-    echo $url
-    curl $curl_options --output "$2.zip" "$url"
-    rm /tmp/com.hieplpvip.download.txt
-    echo
-}
 
 # download latest release from github
 function download_github()
@@ -30,7 +10,7 @@ function download_github()
 # $3 is file name to rename to
 {
     echo "downloading `basename $3 .zip`:"
-    curl $curl_options_silent --output /tmp/com.hieplpvip.download.txt "https://github.com/$1"
+    curl $curl_options_silent --output /tmp/com.hieplpvip.download.txt "https://github.com/$1/releases/latest"
     local url=https://github.com`grep -o -m 1 "/.*$2.*\.zip" /tmp/com.hieplpvip.download.txt`
     echo $url
     curl $curl_options --output "$3" "$url"
@@ -46,58 +26,28 @@ function download_raw()
     echo
 }
 
-PS3='Do you want to download NullEthernet?'$'\n''Yes if you'"'"'re using USB wifi adapter'$'\n''No if you have replaced your wifi card with a compatible one: '
-options=("Yes" "No")
-select opt in "${options[@]}"
-do
-    case $opt in
-        "Yes")
-            nullethernet=1
-            break;;
-        "No")
-            nullethernet=0
-            break;;
-        *) echo "Invalid";;
-    esac
-done
-echo
-
-if [ ! -d ./downloads ]; then mkdir ./downloads; fi
-cd ./downloads
-sudo rm -rf ./zips
-sudo rm -rf ./kexts
-sudo rm -rf ./tools
+rm -rf download && mkdir ./download
+cd ./download
 
 # download kexts
 mkdir ./zips && cd ./zips
-download_github "acidanthera/Lilu/releases" "RELEASE" "acidanthera-Lilu.zip"
-download_github "acidanthera/AppleALC/releases" "RELEASE" "acidanthera-AppleALC.zip"
-download_github "acidanthera/AirportBrcmFixup/releases" "RELEASE" "acidanthera-AirportBrcmFixup.zip"
-download_github "acidanthera/BrcmPatchRAM/releases" "RELEASE" "acidanthera-BrcmPatchRAM.zip"
-download_github "acidanthera/BT4LEContinuityFixup/releases" "RELEASE" "acidanthera-BT4LEContinuityFixup.zip"
-download_github "acidanthera/CPUFriend/releases" "RELEASE" "acidanthera-CPUFriend.zip"
-download_github "acidanthera/HibernationFixup/releases" "RELEASE" "acidanthera-HibernationFixup.zip"
-download_github "acidanthera/VirtualSMC/releases" "RELEASE" "acidanthera-VirtualSMC.zip"
-download_github "acidanthera/VoodooPS2/releases" "RELEASE" "acidanthera-VoodooPS2.zip"
-download_github "acidanthera/WhateverGreen/releases" "RELEASE" "acidanthera-WhateverGreen.zip"
-download_github "hieplpvip/AsusSMC/releases" "RELEASE" "hieplpvip-AsusSMC.zip"
-download_github "alexandred/VoodooI2C/releases" "VoodooI2C-" "alexandred-VoodooI2C.zip"
-download_github "PMheart/LiluFriend/releases" "RELEASE" "PMheart-LiluFriend.zip"
-download_RHM voodootscsync RehabMan-VoodooTSCSync
-if [ $nullethernet -eq 1 ]; then
-    download_RHM os-x-null-ethernet RehabMan-NullEthernet
-fi
-
+download_github "acidanthera/Lilu" "RELEASE" "acidanthera-Lilu.zip"
+download_github "acidanthera/AppleALC" "RELEASE" "acidanthera-AppleALC.zip"
+download_github "acidanthera/AirportBrcmFixup" "RELEASE" "acidanthera-AirportBrcmFixup.zip"
+download_github "acidanthera/BrcmPatchRAM" "RELEASE" "acidanthera-BrcmPatchRAM.zip"
+download_github "acidanthera/BT4LEContinuityFixup" "RELEASE" "acidanthera-BT4LEContinuityFixup.zip"
+download_github "acidanthera/CPUFriend" "RELEASE" "acidanthera-CPUFriend.zip"
+download_github "acidanthera/HibernationFixup" "RELEASE" "acidanthera-HibernationFixup.zip"
+download_github "acidanthera/VirtualSMC" "RELEASE" "acidanthera-VirtualSMC.zip"
+download_github "acidanthera/VoodooPS2" "RELEASE" "acidanthera-VoodooPS2.zip"
+download_github "acidanthera/WhateverGreen" "RELEASE" "acidanthera-WhateverGreen.zip"
+download_github "lvs1974/CpuTscSync" "RELEASE" "lvs1974-CpuTscSync.zip"
+download_github "hieplpvip/AsusSMC" "RELEASE" "hieplpvip-AsusSMC.zip"
+download_github "alexandred/VoodooI2C" "VoodooI2C-" "alexandred-VoodooI2C.zip"
+download_github "PMheart/LiluFriend" "RELEASE" "PMheart-LiluFriend.zip"
 cd ..
 
-# download tools
-mkdir ./tools && cd ./tools
-download_RHM os-x-maciasl-patchmatic RehabMan-patchmatic
-download_github "acidanthera/MaciASL/releases" "RELEASE" "acidanthera-MaciASL.zip"
-download_raw https://raw.githubusercontent.com/black-dragon74/OSX-Debug/master/IORegistryExplorer.zip IORegistryExplorer.zip
-cd ..
-
-KEXTS="AppleALC|AsusSMC|BrcmPatchRAM3|BrcmFirmwareData|BrcmBluetoothInjector|WhateverGreen|CPUFriend|Lilu|NullEthernet.kext|VirtualSMC|SMCBatteryManager|SMCProcessor|VoodooI2C.kext|VoodooI2CHID.kext|VoodooPS2Controller|VoodooTSCSync|Fixup"
+KEXTS="AppleALC|AsusSMC|BrcmPatchRAM3|BrcmFirmwareData|BrcmBluetoothInjector|WhateverGreen|CPUFriend|Lilu|VirtualSMC|SMCBatteryManager|SMCProcessor|VoodooI2C.kext|VoodooI2CHID.kext|VoodooPS2Controller|CpuTscSync|Fixup"
 
 function check_directory
 {

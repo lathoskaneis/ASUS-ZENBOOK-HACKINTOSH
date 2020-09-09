@@ -18,7 +18,6 @@ DefinitionBlock("", "SSDT", 2, "hack", "atk", 0)
 
         Method (SKBV, 1)
         {
-            ^^KBLV = Arg0 / 16;
             ^^PCI0.LPCB.EC0.WRAM (0x04B1, Arg0)
             Return (Arg0)
         }

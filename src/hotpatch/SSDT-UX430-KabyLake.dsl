@@ -13,7 +13,6 @@ DefinitionBlock ("", "SSDT", 2, "hack", "ux430kl", 0)
     // keyboard backlight/fn keys/als
     #include "include/SSDT-ATK-KABY.dsl"
     #include "include/SSDT-RALS.dsl"
-    #include "include/SSDT-ALSC.dsl"
 
     // backlight
     #include "include/SSDT-PNLF.dsl"
@@ -31,5 +30,4 @@ DefinitionBlock ("", "SSDT", 2, "hack", "ux430kl", 0)
     // others
     #include "include/SSDT-HACK.dsl"
     #include "include/SSDT-LPC.dsl"
-    #include "include/SSDT-IGPU.dsl"
 }
